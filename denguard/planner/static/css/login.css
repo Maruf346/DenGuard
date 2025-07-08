@@ -1,0 +1,228 @@
+/* General reset and body styling */
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full-screen height */
+    box-sizing: border-box;
+}
+
+/* Logo styling (Top-left corner) */
+.logo {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Vertically align the items in the center */
+}
+
+.logo img {
+    height: 60px;
+    width: auto;
+    margin-right: 0px;
+    margin-top: 10px;
+    transition: margin-top 0.3s;
+    margin-left: 5px;
+}
+
+.logo h1 {
+    font-size: 25px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
+    font-family: tahoma; 
+}
+
+/* Sign Up Button styling (Top-right corner) */
+.signup-button {
+    position: absolute;
+    top: 45px;
+    right: 20px;
+}
+
+.signup-button a {
+    padding: 9px 18px;
+    background-color: #4CAF50; /* Green button */
+    color: white;
+    text-decoration: none;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    font-weight: lighter;
+    transition: background 0.3s;
+}
+
+.signup-button a:hover {
+    background-color: white;
+    color: #4CAF50;
+}
+
+/* Main Login Container */
+.login-container {
+    background: white;
+    padding: 40px; /* Better spacing */
+    border-radius: 16px; /* Rounded corners */
+    width: 100%;
+    max-width: 450px; /* Fixed max width */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+    text-align: center;
+}
+
+/* Form inputs */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group input, .input-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* Login Button */
+.login-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #e74c3c; /* Red button */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #c0392b; /* Darker red */
+}
+
+/* Links (Forgot password, Sign up) */
+.links {
+    margin-top: 15px;
+}
+
+.links a {
+    text-decoration: none;
+    color: #3498db; /* Blue links */
+}
+
+.admin-link {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Dropdown container */
+.dropdown {
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Label for the dropdown */
+.dropdown label {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #000000;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Styling the dropdown select element */
+.dropdown select {
+    width: 100%; /* Full width of the container */
+    padding: 12px 20px; /* Add some padding for better visual space */
+    font-size: 14px;
+    border: 2px solid #ddd; /* Light border color */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff;
+    color: #333;
+    transition: all 0.3s ease; /* Smooth transition for focus and hover effects */
+    cursor: pointer;
+}
+
+/* On focus, add a border color and slight shadow */
+.dropdown select:focus {
+    border-color: #e74c3c; /* border when focused */
+    box-shadow: 0 0 5px rgba(108, 92, 247, 0.3); /* Light purple shadow on focus */
+}
+
+/* Change border color on hover */
+.dropdown select:hover {
+    border-color: #47b105; /* Purple border on hover */
+}
+
+/* Add some nice options appearance */
+.dropdown option {
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+
+/* Make the dropdown menu appear nicely */
+.dropdown select option:hover {
+    background-color: #6c5ce7; /* Purple background when hovering over options */
+    color: white; /* White text on hover */
+}
+
+/* Social Login Section */
+.social-login {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.social-login p {
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Social Buttons */
+.social-login a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+/* Google Button Style */
+.google-btn {
+    background-color: #db4437; /* Google red */
+}
+
+.google-btn:hover {
+    background-color: #c23321;
+}
+
+/* Facebook Button Style */
+.facebook-btn {
+    background-color: #3b5998; /* Facebook blue */
+}
+
+.facebook-btn:hover {
+    background-color: #2d4373;
+}
+
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .login-container {
+        width: 90%;
+    }
+
+    .signup-button {
+        right: 10px;
+        top: 10px;
+    }
+
+    .logo {
+        left: 10px;
+        top: 10px;
+    }
+}

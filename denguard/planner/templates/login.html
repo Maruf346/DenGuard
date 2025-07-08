@@ -1,0 +1,68 @@
+{% load static %}
+{% load socialaccount %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Denguard</title>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
+<body>
+
+    <!-- Logo (Keep it outside the container) -->
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Denguard Logo">
+    </div>
+
+    <!-- Login Container (All other fields go here) -->
+    <div class="login-container">
+        <h2>Login</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: red;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" name="username" placeholder="Username" required autocomplete="username">
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div class="social-login">
+            <p>Or login with:</p>
+<<<<<<< HEAD
+            <a href="{% provider_login_url 'google' %}">
+=======
+            <a href="{% url 'socialaccount_login' 'google' %}">
+>>>>>>> 4fa980a30ba295156440c67e03e0434b9f5618e6
+                <img src="{% static 'images/google-logo.png' %}" alt="Login with Google" style="height: 40px;">
+            </a>
+
+        </div>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+        <div class="links">
+            <p>Forgot Password?</p>
+            <p>Don't have an account? <a href="#">Sign Up</a></p>
+            <p><a href="/admin/" class="admin-link">Login as Admin</a></p>
+        </div>
+    </div>
+
+</body>
+
+</html>

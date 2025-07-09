@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g_tx1xg&(8vk!ke5%1$kigm3yy)+3g8e@&ez3lh8vc9e@t#ft^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -144,6 +144,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'  # Or your dashboard URL
 LOGOUT_REDIRECT_URL = '/'  # Optional
+SOCIALACCOUNT_LOGIN_ON_GET = True   # optional, to skip the “Continue” screen
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {

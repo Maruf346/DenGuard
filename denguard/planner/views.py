@@ -2,7 +2,9 @@ from django.shortcuts import render
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    profile = request.user.userprofile
+    return render(request, 'home.html', {'profile': profile})
+
 
 def about(request):
     return render(request, 'about.html')

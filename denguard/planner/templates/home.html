@@ -26,6 +26,9 @@
             
         </div>
     </div>
+    
+    <p>Welcome, {{ request.user.first_name }} from {{ profile.location }}</p>
+    <img src="{{ profile.avatar }}" alt="Avatar">
 
     <!-- Upload Section -->
     <div class="container">

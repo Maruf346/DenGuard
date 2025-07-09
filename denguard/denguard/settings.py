@@ -142,8 +142,9 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-LOGIN_REDIRECT_URL = '/'  # Or your dashboard URL
-LOGOUT_REDIRECT_URL = '/'  # Optional
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True   # optional, to skip the “Continue” screen
 
 SOCIALACCOUNT_PROVIDERS = {

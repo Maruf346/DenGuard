@@ -2,6 +2,12 @@ from django.shortcuts import render
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import login
+from users.forms import SignupForm
+
 
 # Create your views here.
 @login_required
@@ -27,8 +33,16 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-def signup(request):
+def signup_view(request):
     if request.method == 'POST':
-        # Handle registration logic here
-        pass
-    return render(request, 'signup.html')
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            login(request, user)
+            messages.success(request, "Signup successful. Welcome!")
+            return redirect('home')  # change to your home/dashboard
+    else:
+        form = SignupForm()
+    return render(request, 'signup.html', {'form': form})

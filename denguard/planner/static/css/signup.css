@@ -1,0 +1,107 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.logo {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 60px;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+
+.logo h1 {
+    font-size: 25px;
+    font-weight: bold;
+    color: #000;
+    font-family: tahoma;
+}
+
+.signup-container {
+    background: white;
+    margin: 100px auto 100px auto;
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    position: relative;
+}
+
+.signup-container h2 {
+    margin-bottom: 20px;
+}
+
+.signup-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-container input,
+.signup-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.signup-btn {
+    padding: 12px;
+    background-color: #4d869c; /* Denguard blue */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.signup-btn:hover {
+    background-color: #437487;
+}
+
+.links {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.links a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+.errorlist {
+    color: red;
+    margin: 0;
+    padding-left: 20px;
+    list-style: none;
+    font-size: 14px;
+}
+
+@media (max-width: 600px) {
+    .signup-container {
+        width: 90%;
+    }
+
+    .logo {
+        top: 10px;
+        left: 10px;
+    }
+}

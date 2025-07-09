@@ -1,0 +1,40 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup | Denguard</title>
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Denguard Logo">
+    </div>
+
+    <!-- Signup Form -->
+    <div class="signup-container">
+        <h2>Create Your Account</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p style="color: green;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button class="signup-btn" type="submit">Sign Up</button>
+        </form>
+
+        <div class="links">
+            <a href="{% url 'login' %}">Already have an account? Login</a><br>
+            <a href="{% provider_login_url 'google' %}">Or sign up with Google</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,12 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from users.forms import SignupForm
+from users.models import UserProfile
+from django.contrib.auth import get_backends
 
 
 # Create your views here.
@@ -40,9 +41,14 @@ def signup_view(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+
+            # ✅ Set backend manually (required when multiple backends like allauth are used)
+            backend = get_backends()[0]
+            user.backend = f"{backend.__module__}.{backend.__class__.__name__}"
+
             login(request, user)
             messages.success(request, "Signup successful. Welcome!")
-            return redirect('home')  # change to your home/dashboard
+            return redirect('home')  # or any page you want
     else:
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})

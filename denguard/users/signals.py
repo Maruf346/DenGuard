@@ -7,18 +7,13 @@ from allauth.socialaccount.models import SocialAccount
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
-    else:
-        # Check if the user already has a profile
-        if hasattr(instance, 'userprofile'):
-            instance.userprofile.save()
-
+    # Always ensure profile exists
+    UserProfile.objects.get_or_create(user=instance)
 
 
 @receiver(post_save, sender=SocialAccount)
 def save_social_avatar(sender, instance, **kwargs):
     if instance.provider == 'google':
-        profile = instance.user.userprofile
+        profile, created = UserProfile.objects.get_or_create(user=instance.user)
         profile.avatar = instance.get_avatar_url()
         profile.save()

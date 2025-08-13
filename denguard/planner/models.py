@@ -9,11 +9,9 @@ class DengueStat(models.Model):
     dead = models.PositiveIntegerField(default=0)
     male = models.PositiveIntegerField(default=0)
     female = models.PositiveIntegerField(default=0)
-    year = models.IntegerField(null=True, blank=True)  # optional (2024/2025)
-
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        y = f" ({self.year})" if self.year else ""
-        return f"{self.location_name}{y} — total:{self.total}"
+        return f"{self.location_name} — total:{self.total}"
 

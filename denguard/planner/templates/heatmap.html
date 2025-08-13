@@ -1,4 +1,6 @@
 {% load static %}
+{% include "header.html" %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +11,12 @@
 </head>
 <body>
 
-  <div class="topbar">
-    <div class="brand">
-      <img src="{% static 'images/logo.png' %}" alt="Denguard" />
-      <h1>Denguard Heatmap</h1>
+    <div class="banner">
+        <div class="banner-content">
+            <h1>Heatmaps</h1>
+            <p><a href="/">Home</a> &gt; Heatmaps</p>
+        </div>
     </div>
-  </div>
 
   <div id="map"></div>
 
@@ -58,5 +60,7 @@
     // Initial load
     loadHeat();
   </script>
+
+{% include "footer.html" %}
 </body>
 </html>

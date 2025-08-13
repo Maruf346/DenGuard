@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Denguard | Heatmap</title>
+  <link rel="stylesheet" href="{% static 'css/heatmap.css' %}">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="{% static 'images/logo.png' %}" alt="Denguard" />
+      <h1>Denguard Heatmap</h1>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script>
+    // 1) Init map (center on Bangladesh-ish; adjust as you like)
+    const map = L.map('map').setView([23.70, 90.40], 11); // Dhaka default
+
+    // 2) Basemap tiles (OSM)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    let heatLayer = null;
+
+    async function loadHeat() {
+      const res = await fetch('/api/heatmap-data/');
+      const payload = await res.json();
+
+      // Remove previous layer
+      if (heatLayer) {
+        map.removeLayer(heatLayer);
+      }
+
+      // 3) Create heat layer
+      heatLayer = L.heatLayer(payload.points, {
+        radius: 25,     // adjust for spread
+        blur: 15,
+        minOpacity: 0.4
+      }).addTo(map);
+
+      // Optional: fit map to points
+      if (payload.points.length) {
+        const latlngs = payload.points.map(p => [p[0], p[1]]);
+        map.fitBounds(latlngs, { padding: [30, 30] });
+      }
+    }
+
+    // Initial load
+    loadHeat();
+  </script>
+</body>
+</html>

@@ -53,6 +53,7 @@ html, body {
 }
 
 #map {
-  height: calc(100vh - 62px); /* full height minus topbar */
+  height: calc(100vh - 300px); /* Adjust 300px to match your banner + header height */
   width: 100%;
 }
+

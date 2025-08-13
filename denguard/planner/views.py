@@ -62,3 +62,27 @@ def signup_view(request):
     else:
         form = SignupForm()
     return render(request, 'signup.html', {'form': form})
+
+
+# planner/views.py
+from django.http import JsonResponse
+from django.shortcuts import render
+from django.db.models import Max
+from .models import DengueStat
+
+def heatmap_view(request):
+    # No need to filter by year, just render the template
+    return render(request, "heatmap.html")
+
+def heatmap_data_api(request):
+    qs = DengueStat.objects.all()  # Get all records
+
+    max_total = qs.aggregate(m=Max("total"))["m"] or 1
+    points = []
+    for r in qs:
+        if r.latitude is None or r.longitude is None:
+            continue
+        intensity = round(r.total / max_total, 3)  # normalize 0..1
+        points.append([r.latitude, r.longitude, intensity])
+
+    return JsonResponse({"points": points, "max_total": max_total})

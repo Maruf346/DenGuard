@@ -28,4 +28,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('accounts/', include('allauth.urls')),
     path('signup/', views.signup_view, name='signup'),
+    path('heatmap/', views.heatmap_view, name='heatmap'),
+    path('api/heatmap-data/', views.heatmap_data_api, name='heatmap_data_api'),
 ]

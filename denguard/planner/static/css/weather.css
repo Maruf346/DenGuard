@@ -34,6 +34,34 @@ body {
     padding: 24px 16px
 }
 
+.home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe); /* Nice blue gradient */
+    color: white;
+    border-radius: 50%;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    font-size: 18px;
+    transition: all 0.3s ease;
+    position: relative;
+    top: 5px; /* Slightly aligns better with text */
+}
+
+.home-link:hover {
+    background: linear-gradient(135deg, #43e97b, #38f9d7); /* Switch to fresh green on hover */
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.home-link i {
+    pointer-events: none; /* Makes sure clicks go to link, not icon */
+}
+
+
 .brand {
     width: 52px;
     height: 52px;

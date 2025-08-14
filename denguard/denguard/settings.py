@@ -9,11 +9,17 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# make sure time is correct for “today”
+TIME_ZONE = "Asia/Dhaka"
+USE_TZ = True
+
+TOMORROW_API_KEY = os.environ.get("TOMORROW_API_KEY", "")
 
 
 # Quick-start development settings - unsuitable for production

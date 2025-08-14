@@ -86,3 +86,14 @@ def heatmap_data_api(request):
         points.append([r.latitude, r.longitude, intensity])
 
     return JsonResponse({"points": points, "max_total": max_total})
+
+
+
+from django.views.decorators.cache import cache_page
+from .services.tomorrow import get_today_weather_and_air
+
+@cache_page(60 * 15)  # cache for 15 minutes to save API calls
+def weather_today(request):
+    city = request.GET.get("city", "Dhaka")
+    data = get_today_weather_and_air(city)
+    return render(request, "weather_today.html", {"data": data, "city": city})

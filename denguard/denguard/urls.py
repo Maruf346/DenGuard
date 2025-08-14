@@ -30,4 +30,5 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('heatmap/', views.heatmap_view, name='heatmap'),
     path('api/heatmap-data/', views.heatmap_data_api, name='heatmap_data_api'),
+    path("weather/today/", views.weather_today, name="weather_today"),
 ]

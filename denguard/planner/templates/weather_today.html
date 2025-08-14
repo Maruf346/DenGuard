@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Today’s Weather & Air | Denguard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="{% static 'css/weather.css' %}" rel="stylesheet">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <img src="{% static 'images/logo.png' %}" alt="Denguard" class="brand">
+      <div>
+        <h1>Today’s Environment</h1>
+        <p class="sub">Daily weather + air quality snapshot to guide dengue risk awareness</p>
+      </div>
+      <form class="city-form" method="get">
+        <select name="city" onchange="this.form.submit()">
+          <option {% if city == 'Dhaka' %}selected{% endif %}>Dhaka</option>
+          <option {% if city == 'Chattogram' %}selected{% endif %}>Chattogram</option>
+          <option {% if city == 'Rajshahi' %}selected{% endif %}>Rajshahi</option>
+        </select>
+      </form>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="top-cards">
+      <div class="card big">
+        <h3>Summary</h3>
+        <div class="summary-grid">
+          <div><span class="k">Date</span><span class="v">{{ data.date }}</span></div>
+          <div><span class="k">Location</span><span class="v">{{ data.location }}</span></div>
+          <div><span class="k">Risk Level</span>
+            <span class="badge {% if data.risk_level == 'High' %}b-high{% elif data.risk_level == 'Moderate' %}b-med{% else %}b-low{% endif %}">
+              {{ data.risk_level }}
+            </span>
+          </div>
+        </div>
+        <p class="hint">Risk is a simple heuristic combining rain, humidity, temperature, AQI and UV.</p>
+      </div>
+
+      <div class="card">
+        <h3>Temperature (°C)</h3>
+        <ul class="stats">
+          <li><span>Min</span><b>{{ data.temp_min_C|default:"—" }}</b></li>
+          <li><span>Mean</span><b>{{ data.temp_mean_C|default:"—" }}</b></li>
+          <li><span>Max</span><b>{{ data.temp_max_C|default:"—" }}</b></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Humidity & Rain</h3>
+        <ul class="stats">
+          <li><span>Humidity %</span><b>{{ data.humidity_percent|default:"—" }}</b></li>
+          <li><span>Rain (mm)</span><b>{{ data.rainfall_mm|default:"0" }}</b></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Wind</h3>
+        <ul class="stats">
+          <li><span>Speed (kph)</span><b>{{ data.wind_speed_kph|default:"—" }}</b></li>
+          <li><span>Direction (°)</span><b>{{ data.wind_direction_deg|default:"—" }}</b></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Sun & Air</h3>
+        <ul class="stats">
+          <li><span>UV Index</span><b>{{ data.uv_index|default:"—" }}</b></li>
+          <li><span>PM2.5</span><b>{{ data.pm25|default:"—" }}</b></li>
+          <li><span>PM10</span><b>{{ data.pm10|default:"—" }}</b></li>
+          <li><span>AQI</span><b>{{ data.aqi|default:"—" }}</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="table-wrap">
+      <h3>Tabular View</h3>
+      <div class="table">
+        <div class="tr th">
+          <div>date</div><div>location</div><div>rainfall_mm</div><div>humidity_percent</div>
+          <div>temp_min_C</div><div>temp_max_C</div><div>temp_mean_C</div>
+          <div>wind_speed_kph</div><div>wind_direction_deg</div>
+          <div>uv_index</div><div>pm25</div><div>pm10</div><div>aqi</div><div>risk_level</div>
+        </div>
+        <div class="tr">
+          <div>{{ data.date }}</div>
+          <div>{{ data.location }}</div>
+          <div>{{ data.rainfall_mm|default:"0" }}</div>
+          <div>{{ data.humidity_percent|default:"—" }}</div>
+          <div>{{ data.temp_min_C|default:"—" }}</div>
+          <div>{{ data.temp_max_C|default:"—" }}</div>
+          <div>{{ data.temp_mean_C|default:"—" }}</div>
+          <div>{{ data.wind_speed_kph|default:"—" }}</div>
+          <div>{{ data.wind_direction_deg|default:"—" }}</div>
+          <div>{{ data.uv_index|default:"—" }}</div>
+          <div>{{ data.pm25|default:"—" }}</div>
+          <div>{{ data.pm10|default:"—" }}</div>
+          <div>{{ data.aqi|default:"—" }}</div>
+          <div>{{ data.risk_level }}</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

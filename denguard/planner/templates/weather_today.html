@@ -118,9 +118,9 @@
         <h3>Sun & Air</h3>
         <ul class="stats">
           <li><span>UV Index</span><b>{{ data.uv_index|default:"—" }}</b></li>
-          <li><span>PM2.5</span><b>{{ data.pm25|default:"—" }}</b></li>
-          <li><span>PM10</span><b>{{ data.pm10|default:"—" }}</b></li>
-          <li><span>AQI</span><b>{{ data.aqi|default:"—" }}</b></li>
+          <li><span>PM2.5</span><b>{{ data.pm25|floatformat:2|default:"—" }}</b></li>
+          <li><span>PM10</span><b>{{ data.pm10|floatformat:2|default:"—" }}</b></li>
+          <li><span>AQI</span><b>{{ data.aqi|floatformat:2|default:"—" }}</b></li>
         </ul>
       </div>
     </section>

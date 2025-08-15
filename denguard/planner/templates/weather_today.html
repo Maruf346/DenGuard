@@ -18,11 +18,58 @@
       </div>
       <form class="city-form" method="get">
         <select name="city" onchange="this.form.submit()">
-          <option {% if city == 'Dhaka' %}selected{% endif %}>Dhaka</option>
-          <option {% if city == 'Chattogram' %}selected{% endif %}>Chattogram</option>
-          <option {% if city == 'Rajshahi' %}selected{% endif %}>Rajshahi</option>
+
+          <optgroup label="🇧🇩 Bangladesh">
+            <option {% if city == 'Dhaka' %}selected{% endif %}>Dhaka</option>
+            <option {% if city == 'Chittagong' %}selected{% endif %}>Chittagong</option>
+            <option {% if city == 'Khulna' %}selected{% endif %}>Khulna</option>
+          </optgroup>
+
+          <optgroup label="🌎 North America">
+            <option {% if city == 'Toronto' %}selected{% endif %}>Toronto</option>
+            <option {% if city == 'New York' %}selected{% endif %}>New York</option>
+            <option {% if city == 'Los Angeles' %}selected{% endif %}>Los Angeles</option>
+            <option {% if city == 'Chicago' %}selected{% endif %}>Chicago</option>
+            <option {% if city == 'Mexico City' %}selected{% endif %}>Mexico City</option>
+          </optgroup>
+
+          <optgroup label="🌍 Europe">
+            <option {% if city == 'London' %}selected{% endif %}>London</option>
+            <option {% if city == 'Paris' %}selected{% endif %}>Paris</option>
+            <option {% if city == 'Berlin' %}selected{% endif %}>Berlin</option>
+            <option {% if city == 'Rome' %}selected{% endif %}>Rome</option>
+            <option {% if city == 'Madrid' %}selected{% endif %}>Madrid</option>
+          </optgroup>
+
+          <optgroup label="🌏 Asia">
+            <option {% if city == 'Delhi' %}selected{% endif %}>Delhi</option>
+            <option {% if city == 'Mumbai' %}selected{% endif %}>Mumbai</option>
+            <option {% if city == 'Tokyo' %}selected{% endif %}>Tokyo</option>
+            <option {% if city == 'Beijing' %}selected{% endif %}>Beijing</option>
+            <option {% if city == 'Bangkok' %}selected{% endif %}>Bangkok</option>
+            <option {% if city == 'Singapore' %}selected{% endif %}>Singapore</option>
+          </optgroup>
+
+          <optgroup label="🌊 Oceania">
+            <option {% if city == 'Sydney' %}selected{% endif %}>Sydney</option>
+            <option {% if city == 'Melbourne' %}selected{% endif %}>Melbourne</option>
+          </optgroup>
+
+          <optgroup label="🌟 Middle East">
+            <option {% if city == 'Dubai' %}selected{% endif %}>Dubai</option>
+            <option {% if city == 'Riyadh' %}selected{% endif %}>Riyadh</option>
+            <option {% if city == 'Istanbul' %}selected{% endif %}>Istanbul</option>
+          </optgroup>
+
+          <optgroup label="🌍 Africa">
+            <option {% if city == 'Cairo' %}selected{% endif %}>Cairo</option>
+            <option {% if city == 'Johannesburg' %}selected{% endif %}>Johannesburg</option>
+            <option {% if city == 'Nairobi' %}selected{% endif %}>Nairobi</option>
+          </optgroup>
+
         </select>
       </form>
+
     </div>
   </header>
 

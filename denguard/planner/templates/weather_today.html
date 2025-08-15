@@ -80,7 +80,8 @@
         <div class="summary-grid">
           <div><span class="k">Date</span><span class="v">{{ data.date }}</span></div>
           <div><span class="k">Location</span><span class="v">{{ data.location }}</span></div>
-          <div><span class="k">Risk Level</span>
+          <div class="risk-level-container">
+            <span class="k">Risk Level</span>
             <span class="badge {% if data.risk_level == 'High' %}b-high{% elif data.risk_level == 'Moderate' %}b-med{% else %}b-low{% endif %}">
               {{ data.risk_level }}
             </span>
@@ -125,6 +126,7 @@
       </div>
     </section>
 
+    <!--
     <section class="table-wrap">
       <h3>Tabular View</h3>
       <div class="table">
@@ -152,6 +154,7 @@
         </div>
       </div>
     </section>
+    -->
   </main>
 </body>
 </html>

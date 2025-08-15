@@ -168,6 +168,12 @@ body {
     font-size: 1.2rem
 }
 
+.risk-level-container {
+    display: flex;         /* puts items in a row */
+    align-items: center;   /* vertically center the badge with text */
+    gap: 10px;             /* space between Risk Level and badge */
+}
+
 .badge {
     padding: 6px 10px;
     border-radius: 999px;

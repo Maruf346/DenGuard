@@ -1,63 +1,125 @@
-# services/tomorrow.py
+# services/tomorrow.py  (Now uses Open-Meteo + NASA POWER instead of Tomorrow.io)
 import requests
-from django.conf import settings
+from datetime import datetime, timedelta
+
 
 def get_today_weather_and_air(city):
     """
-    Fetch current weather and air quality from Tomorrow.io Realtime API
+    Fetch today's weather and air quality using Open-Meteo + NASA POWER APIs
+    Returns data in the same structure as the old Tomorrow.io version.
     """
-    api_key = settings.TOMORROW_API_KEY
-    if not api_key:
-        return {"error": "API key not set"}
+    # City → Coordinates mapping (extend as needed)
+    city_coords = {
+        "Dhaka": (23.8103, 90.4125),
+        "Toronto": (43.65107, -79.347015),
+        "New York": (40.7128, -74.0060),
+        "London": (51.5074, -0.1278),
+        "Delhi": (28.6139, 77.2090),
+        "Mumbai": (19.0760, 72.8777),
+        "Chittagong": (22.3569, 91.7832)
+    }
+    lat, lon = city_coords.get(city, (23.8103, 90.4125))  # Default: Dhaka
 
-    # You can use city name directly or latitude,longitude
-    location = city  # or "23.8103,90.4125" for Dhaka coordinates
-
-    fields = [
-        "temperature",         # Current temperature
-        "temperatureApparent", # Feels like
-        "humidity",            # %
-        "windSpeed",           # m/s
-        "windDirection",       # deg
-        "uvIndex",             # UV index
-        "precipitationIntensity",  # mm/hr
-        "particulateMatter25", # PM2.5
-        "particulateMatter10", # PM10
-        "epaIndex"             # AQI
-    ]
-
-    url = (
-        f"https://api.tomorrow.io/v4/weather/realtime"
-        f"?location={location}"
-        f"&units=metric"
-        f"&fields={','.join(fields)}"
-        f"&apikey={api_key}"
-    )
+    today = datetime.utcnow().strftime("%Y-%m-%d")
 
     try:
-        response = requests.get(url, headers={"accept": "application/json"})
-        response.raise_for_status()
-        raw = response.json()
+        # 1️⃣ Open-Meteo daily weather
+        meteo_url = (
+            "https://api.open-meteo.com/v1/forecast?"
+            f"latitude={lat}&longitude={lon}"
+            "&daily=temperature_2m_max,temperature_2m_min,temperature_2m_mean,"
+            "precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant"
+            "&timezone=auto"
+        )
+        meteo_data = requests.get(meteo_url).json()
+        daily = meteo_data.get("daily", {})
 
-        # Extract relevant data
-        values = raw.get("data", {}).get("values", {})
-        data = {
-            "date": raw.get("data", {}).get("time", "").split("T")[0],
-            "location": city,
-            "rainfall_mm": values.get("precipitationIntensity"),
-            "humidity_percent": values.get("humidity"),
-            "temp_min_C": values.get("temperature"),  # realtime only has current temp
-            "temp_max_C": values.get("temperature"),
-            "temp_mean_C": values.get("temperature"),
-            "wind_speed_kph": round(values.get("windSpeed", 0) * 3.6, 2),  # m/s → km/h
-            "wind_direction_deg": values.get("windDirection"),
-            "uv_index": values.get("uvIndex"),
-            "pm25": values.get("particulateMatter25"),
-            "pm10": values.get("particulateMatter10"),
-            "aqi": values.get("epaIndex"),
-            "risk_level": (
-                "High" if values.get("epaIndex", 0) >= 100 else "Low"
+        # 2️⃣ Open-Meteo hourly air quality
+        air_url = (
+            "https://air-quality-api.open-meteo.com/v1/air-quality?"
+            f"latitude={lat}&longitude={lon}"
+            "&hourly=pm10,pm2_5,us_aqi"
+            "&timezone=auto"
+        )
+        air_data = requests.get(air_url).json()
+        hourly = air_data.get("hourly", {})
+
+        # Use today's last available hourly value for PM & AQI
+        if "time" in hourly and hourly["time"]:
+            today_mask = [i for i, t in enumerate(hourly["time"]) if t.startswith(today)]
+            if today_mask:
+                pm25_val = sum(hourly["pm2_5"][i] for i in today_mask) / len(today_mask)
+                pm10_val = sum(hourly["pm10"][i] for i in today_mask) / len(today_mask)
+                aqi_val  = sum(hourly["us_aqi"][i] for i in today_mask) / len(today_mask)
+            else:
+                pm25_val = pm10_val = aqi_val = None
+        else:
+            pm25_val = pm10_val = aqi_val = None
+
+
+        # 3️⃣ NASA POWER humidity & UV
+        today_nasa = datetime.utcnow().strftime("%Y%m%d")
+
+        nasa_params = {
+            "parameters": "RH2M,ALLSKY_SFC_UVB",  # same params you used in historical code
+            "start": today_nasa,
+            "end": today_nasa,
+            "latitude": lat,
+            "longitude": lon,
+            "community": "AG",          # add this (was in your working code)
+            "format": "JSON",
+            "time-standard": "UTC"      # add this too (was in your working code)
+        }
+
+        resp = requests.get(
+            "https://power.larc.nasa.gov/api/temporal/daily/point",
+            params=nasa_params,
+            timeout=20
+        )
+        resp.raise_for_status()
+        payload = resp.json().get("properties", {}).get("parameter", {})
+
+        # Read by exact date key (YYYYMMDD) instead of list(...)[0]
+        humidity_raw = (payload.get("RH2M", {}) or {}).get(today_nasa)
+        uv_raw       = (payload.get("ALLSKY_SFC_UVB", {}) or {}).get(today_nasa)
+
+        humidity = float(humidity_raw) if humidity_raw is not None else None
+        uv_index = float(uv_raw) if uv_raw is not None else None
+
+        # Fallback to yesterday if today's daily isn’t published yet
+        if humidity is None or humidity == -999.0 and uv_index is None or uv_index == -999.0:
+            yday_nasa = (datetime.utcnow() - timedelta(days=85)).strftime("%Y%m%d")
+            nasa_params["start"] = nasa_params["end"] = yday_nasa
+            resp = requests.get(
+                "https://power.larc.nasa.gov/api/temporal/daily/point",
+                params=nasa_params,
+                timeout=20
             )
+            resp.raise_for_status()
+            payload = resp.json().get("properties", {}).get("parameter", {})
+            humidity_raw = (payload.get("RH2M", {}) or {}).get(yday_nasa)
+            uv_raw       = (payload.get("ALLSKY_SFC_UVB", {}) or {}).get(yday_nasa)
+            humidity = float(humidity_raw) if humidity_raw is not None else None
+            uv_index = float(uv_raw) if uv_raw is not None else None
+
+
+
+        # Build result keeping the same keys as before
+        data = {
+            "date": today,
+            "location": city,
+            "rainfall_mm": daily.get("precipitation_sum", [None])[0],
+            "humidity_percent": humidity,
+            "temp_min_C": daily.get("temperature_2m_min", [None])[0],
+            "temp_max_C": daily.get("temperature_2m_max", [None])[0],
+            "temp_mean_C": daily.get("temperature_2m_mean", [None])[0],
+            "wind_speed_kph": daily.get("wind_speed_10m_max", [None])[0],
+            "wind_direction_deg": daily.get("wind_direction_10m_dominant", [None])[0],
+            "uv_index": uv_index,
+            "pm25": pm25_val,
+            "pm10": pm10_val,
+            "aqi": aqi_val,
+            "risk_level": "High" if (aqi_val and aqi_val >= 100) else "Low"
         }
         return data
 

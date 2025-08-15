@@ -10,14 +10,48 @@ def get_today_weather_and_air(city):
     """
     # City → Coordinates mapping (extend as needed)
     city_coords = {
+        # Bangladesh
         "Dhaka": (23.8103, 90.4125),
+        "Chittagong": (22.3569, 91.7832),
+        "Khulna": (22.8456, 89.5403),
+
+        # North America
         "Toronto": (43.65107, -79.347015),
         "New York": (40.7128, -74.0060),
+        "Los Angeles": (34.0522, -118.2437),
+        "Chicago": (41.8781, -87.6298),
+        "Mexico City": (19.4326, -99.1332),
+
+        # Europe
         "London": (51.5074, -0.1278),
+        "Paris": (48.8566, 2.3522),
+        "Berlin": (52.5200, 13.4050),
+        "Rome": (41.9028, 12.4964),
+        "Madrid": (40.4168, -3.7038),
+
+        # Asia
         "Delhi": (28.6139, 77.2090),
         "Mumbai": (19.0760, 72.8777),
-        "Chittagong": (22.3569, 91.7832)
+        "Tokyo": (35.6762, 139.6503),
+        "Beijing": (39.9042, 116.4074),
+        "Bangkok": (13.7563, 100.5018),
+        "Singapore": (1.3521, 103.8198),
+
+        # Oceania
+        "Sydney": ( -33.8688, 151.2093 ),
+        "Melbourne": ( -37.8136, 144.9631 ),
+
+        # Middle East
+        "Dubai": (25.276987, 55.296249),
+        "Riyadh": (24.7136, 46.6753),
+        "Istanbul": (41.0082, 28.9784),
+
+        # Africa
+        "Cairo": (30.0444, 31.2357),
+        "Johannesburg": (-26.2041, 28.0473),
+        "Nairobi": (-1.2921, 36.8219)
     }
+
     lat, lon = city_coords.get(city, (23.8103, 90.4125))  # Default: Dhaka
 
     today = datetime.utcnow().strftime("%Y-%m-%d")

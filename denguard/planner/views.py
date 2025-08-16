@@ -8,7 +8,9 @@ from django.contrib.auth import login, authenticate
 from users.forms import SignupForm
 from users.models import UserProfile
 from django.contrib.auth import get_backends
-
+import pandas as pd
+import json
+from planner.services.tomorrow import get_today_weather_and_air
 
 # Create your views here.
 @login_required
@@ -17,15 +19,42 @@ def home(request):
     city = "Dhaka"   # or profile.city if user has city saved in profile
     data = get_today_weather_and_air(city)
 
-    return render(
-        request,
-        'home.html',
-        {
-            'profile': profile,
-            'data': data,
-            'city': city
-        }
-    )
+    # === Load dengue CSV for charts ===
+    df = pd.read_csv("planner/data/dengue_stats.csv")
+
+    # Aggregate total/male/female/dead by location
+    agg_df = df.groupby("location_name").sum().reset_index()
+    locations = agg_df["location_name"].tolist()
+    total_cases = agg_df["total"].tolist()
+    male_cases = agg_df["male"].tolist()
+    female_cases = agg_df["female"].tolist()
+    dead_cases = agg_df["dead"].tolist()
+
+    # Gender distribution overall
+    gender_distribution = [sum(male_cases), sum(female_cases)]
+
+    # Bubble/Scatter chart data
+    latitudes = agg_df["latitude"].tolist()
+    longitudes = agg_df["longitude"].tolist()
+    bubble_sizes = [x / 10 for x in total_cases]  # scale down for visibility
+
+    # Pass everything as JSON for Chart.js
+    context = {
+        'profile': profile,
+        'data': data,
+        'city': city,
+        'locations_json': json.dumps(locations),
+        'total_cases_json': json.dumps(total_cases),
+        'male_cases_json': json.dumps(male_cases),
+        'female_cases_json': json.dumps(female_cases),
+        'dead_cases_json': json.dumps(dead_cases),
+        'gender_distribution_json': json.dumps(gender_distribution),
+        'latitudes_json': json.dumps(latitudes),
+        'longitudes_json': json.dumps(longitudes),
+        'bubble_sizes_json': json.dumps(bubble_sizes),
+    }
+
+    return render(request, 'home.html', context)
 
 @login_required
 def about(request):

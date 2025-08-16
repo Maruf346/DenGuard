@@ -65,50 +65,71 @@ body {
 }
 
 .risk-today {
-    text-align: center;
-    margin: 40px auto;
+  text-align: center;
+  margin: 40px auto;
 }
 
 .risk-today h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #463221;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #463221;
+  margin-bottom: 20px;
 }
 
 /* Card wrapper for badge */
 .risk-card {
-    display: inline-block;
-    padding: 25px 40px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #fdf2f8, #fce7f3); /* soft pinkish gradient */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    transition: transform 0.3s, box-shadow 0.3s;
+  display: inline-block;
+  padding: 25px 40px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+  /* soft pinkish gradient */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .risk-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
 /* Badge styling */
 .badge {
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 18px;
-    display: inline-block;
-    min-width: 120px;
-    text-align: center;
-    color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 18px;
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+  color: #fff;
 }
 
 /* Risk colors */
-.b-veryhigh { background-color: #b91c1c; }   /* deep red */
-.b-high     { background-color: #ef4444; }   /* red */
-.b-med      { background-color: #f59e0b; }   /* orange */
-.b-low      { background-color: #10b981; }   /* green */
-.b-verylow  { background-color: #047857; }   /* dark green */
+.b-veryhigh {
+  background-color: #b91c1c;
+}
+
+/* deep red */
+.b-high {
+  background-color: #ef4444;
+}
+
+/* red */
+.b-med {
+  background-color: #f59e0b;
+}
+
+/* orange */
+.b-low {
+  background-color: #10b981;
+}
+
+/* green */
+.b-verylow {
+  background-color: #047857;
+}
+
+/* dark green */
 
 /* Weather Snapshot Cards */
 .weather-cards {
@@ -132,6 +153,29 @@ body {
   font-size: 18px;
   color: #463221;
 }
+
+.chart-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h2 {
+  text-align: center;
+  color: #463221;
+  margin-bottom: 30px;
+}
+
+.chart-container canvas {
+  margin: 25px auto;
+  display: block;
+  max-width: 90%;
+}
+
+
 
 /* Tips */
 .tips-section {

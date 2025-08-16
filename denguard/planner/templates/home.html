@@ -71,9 +71,105 @@
 
     <!-- Chart Section -->
     <section class="chart-container">
-        <h2>Risk Trend (Last 7 Days)</h2>
-        <canvas id="riskTrendChart"></canvas>
+        <h3>Dengue Overview</h3>
+
+        <!-- 1. Line/Bar Chart: Total Cases by Location -->
+        <canvas id="totalCasesChart"></canvas>
+
+        <!-- 2. Stacked Bar Chart: Male / Female / Dead -->
+        <canvas id="stackedBarChart"></canvas>
+
+        <!-- 3. Pie Chart: Gender Distribution -->
+        <canvas id="genderPieChart"></canvas>
+
+        <!-- 4. Bubble/Scatter Map -->
+        <canvas id="bubbleMapChart"></canvas>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const locations = {{ locations_json|safe }};
+    const totalCases = {{ total_cases_json|safe }};
+    const maleCases = {{ male_cases_json|safe }};
+    const femaleCases = {{ female_cases_json|safe }};
+    const deadCases = {{ dead_cases_json|safe }};
+    const genderDistribution = {{ gender_distribution_json|safe }};
+    const latitudes = {{ latitudes_json|safe }};
+    const longitudes = {{ longitudes_json|safe }};
+    const bubbleSizes = {{ bubble_sizes_json|safe }};
+
+    // 1️⃣ Line/Bar Chart - Total Cases
+    new Chart(document.getElementById("totalCasesChart"), {
+        type: 'bar',
+        data: {
+            labels: locations,
+            datasets: [{
+                label: "Total Cases",
+                data: totalCases,
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: true } },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // 2️⃣ Stacked Bar Chart
+    new Chart(document.getElementById("stackedBarChart"), {
+        type: 'bar',
+        data: {
+            labels: locations,
+            datasets: [
+                { label: "Male", data: maleCases, backgroundColor: 'rgba(54, 162, 235, 0.7)' },
+                { label: "Female", data: femaleCases, backgroundColor: 'rgba(255, 99, 132, 0.7)' },
+                { label: "Dead", data: deadCases, backgroundColor: 'rgba(0,0,0,0.7)' }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' } },
+            scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+        }
+    });
+
+    // 3️⃣ Pie Chart - Gender Distribution
+    new Chart(document.getElementById("genderPieChart"), {
+        type: 'pie',
+        data: {
+            labels: ["Male", "Female"],
+            datasets: [{
+                data: genderDistribution,
+                backgroundColor: ['rgba(54, 162, 235, 0.7)', 'rgba(255, 99, 132, 0.7)']
+            }]
+        },
+        options: { responsive: true }
+    });
+
+    // 4️⃣ Bubble/Scatter Map
+    new Chart(document.getElementById("bubbleMapChart"), {
+        type: 'bubble',
+        data: {
+            datasets: locations.map((loc, i) => ({
+                label: loc,
+                data: [{ x: longitudes[i], y: latitudes[i], r: bubbleSizes[i] }],
+                backgroundColor: 'rgba(255, 159, 64, 0.6)'
+            }))
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'top' } },
+            scales: {
+                x: { title: { display: true, text: 'Longitude' } },
+                y: { title: { display: true, text: 'Latitude' } }
+            }
+        }
+    });
+    </script>
+
 
     <!-- Tips Section -->
     <section class="tips-section container">

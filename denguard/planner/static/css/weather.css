@@ -180,22 +180,34 @@ body {
     font-weight: 700
 }
 
+.b-very-high {
+    background: rgba(139, 0, 0, .15);   /* darker red */
+    color: #fecaca;
+    border: 1px solid #7f1d1d;
+}
+
 .b-high {
     background: rgba(239, 68, 68, .15);
     color: #fecaca;
-    border: 1px solid #ef4444
+    border: 1px solid #ef4444;
 }
 
 .b-med {
     background: rgba(245, 158, 11, .15);
     color: #fde68a;
-    border: 1px solid #f59e0b
+    border: 1px solid #f59e0b;
 }
 
 .b-low {
     background: rgba(16, 185, 129, .15);
     color: #bbf7d0;
-    border: 1px solid #10b981
+    border: 1px solid #10b981;
+}
+
+.b-very-low {
+    background: rgba(59, 130, 246, .15);   /* light blue */
+    color: #bfdbfe;
+    border: 1px solid #3b82f6;
 }
 
 .table-wrap {

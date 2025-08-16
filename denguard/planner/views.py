@@ -14,7 +14,18 @@ from django.contrib.auth import get_backends
 @login_required
 def home(request):
     profile = request.user.userprofile
-    return render(request, 'home.html', {'profile': profile})
+    city = "Dhaka"   # or profile.city if user has city saved in profile
+    data = get_today_weather_and_air(city)
+
+    return render(
+        request,
+        'home.html',
+        {
+            'profile': profile,
+            'data': data,
+            'city': city
+        }
+    )
 
 @login_required
 def about(request):

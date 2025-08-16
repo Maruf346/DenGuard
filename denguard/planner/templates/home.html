@@ -21,107 +21,55 @@
     <!-- Hero Banner -->
     <div class="banner">
         <div class="banner-content">
-            <p>Welcome to</p>
-            <h1>Denguard</h1>
-            
+        <p>Predict. Prevent. Protect.</p>
+        <h1>Denguard</h1>
+        <p class="tagline">AI-powered dengue risk prediction for your safety</p>
         </div>
     </div>
     
-    <p>Welcome, {{ request.user.first_name }} from {{ profile.location }}</p>
-    <img src="{{ profile.avatar }}" alt="Avatar">
+    <!-- Profile Section -->
+    <section class="profile-section container">
+        <img src="{{ profile.avatar }}" alt="Avatar" class="profile-avatar">
+        <h2>Welcome, {{ request.user.first_name }}</h2>
+        <p>Location: {{ profile.location }}</p>
+    </section>
 
-    <!-- Upload Section -->
-    <div class="container">
-        
-        
-        <!-- Result Section -->
-        <div id="result-section" {% if result_data %}style="display:block"{% else %}class="hidden"{% endif %}>
-            <h3>📊 Result</h3>
-            <div class="result-content">
-                {% if result_data %}
-                    <form method="post" action="{% url 'export_csv' %}">
-                        {% csrf_token %}
-                        <button type="submit" class="export-btn">⬇️ Export as CSV</button>
-                    </form>
-                    <table>
-                        <thead>
-                            <tr>
-                                {% for col in result_data.0.keys %}
-                                <th>{{ col }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row in result_data %}
-                            <tr>
-                                {% for val in row.values %}
-                                <td>{{ val }}</td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-
-                    <h2>Visualization on Pie Chart</h2>
-                    <p>This chart visualizes the distribution of study groups based on the uploaded data.</p>
-                    <div class="chart-container">
-                        <canvas id="clusterPieChart"></canvas>
-                    </div>
-                    <button id="saveChartBtn" class="export-btn">🖼️ Save Chart as PNG</button>
-                    
-                {% else %}
-                    <p>Results will be shown here...</p>
-                {% endif %}
-            </div>
+    <!-- Weather Snapshot -->
+    <section class="weather-cards container">
+        <div class="weather-card">
+        <h3>🌧 Rainfall</h3>
+        <p>{{ data.rainfall_mm }} mm</p>
         </div>
-        
-    </div>
+        <div class="weather-card">
+        <h3>🌡 Temperature</h3>
+        <p>{{ data.temp_mean_C }} °C</p>
+        </div>
+        <div class="weather-card">
+        <h3>💧 Humidity</h3>
+        <p>{{ data.humidity_percent }} %</p>
+        </div>
+        <div class="weather-card">
+        <h3>🌫 Air Quality</h3>
+        <p>AQI: {{ data.aqi }}</p>
+        </div>
+    </section>
 
-    {% if cluster_counts_json %}
-        <script>
-            const ctx = document.getElementById('clusterPieChart').getContext('2d');
-        
-            const clusterCounts = {{ cluster_counts_json|safe }};
-            const labels = Object.keys(clusterCounts);
-            const dataValues = Object.values(clusterCounts);
-        
-            const data = {
-                labels: labels,
-                datasets: [{
-                    label: 'Cluster Distribution',
-                    data: dataValues,
-                    backgroundColor: ['#f94144', '#f3722c', '#90be6d', '#577590', '#277da1'],
-                    borderWidth: 1
-                }]
-            };
-        
-            const config = {
-                type: 'pie',
-                data: data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            };
-        
-            const myChart = new Chart(ctx, config);
-        
-            // 🖼️ Save as PNG Handler
-            document.getElementById('saveChartBtn').addEventListener('click', function() {
-                const link = document.createElement('a');
-                link.href = myChart.toBase64Image();
-                link.download = 'cluster_distribution.png';
-                link.click();
-            });
-        </script>
-    
-        {% endif %}
+    <!-- Chart Section -->
+    <section class="chart-container">
+        <h2>Risk Trend (Last 7 Days)</h2>
+        <canvas id="riskTrendChart"></canvas>
+    </section>
 
-
+    <!-- Tips Section -->
+    <section class="tips-section container">
+        <h2>Prevention Tips</h2>
+        <ul>
+        <li>🦟 Use mosquito repellents and nets</li>
+        <li>💧 Don’t let water stagnate in containers</li>
+        <li>👕 Wear long-sleeved clothing outdoors</li>
+        <li>🏥 Seek medical help if you feel dengue symptoms</li>
+        </ul>
+    </section>
 
 </body>
 </html>

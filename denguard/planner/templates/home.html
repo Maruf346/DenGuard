@@ -33,6 +33,22 @@
         <h3>Welcome, {{ request.user.first_name }}</h3>
     </section>
 
+    <!-- Risk Level Today -->
+    <section class="risk-today container">
+        <h2>Today's Risk Level</h2>
+        <div class="risk-card">
+            <span class="badge 
+            {% if data.risk_level == 'Very High' %}b-veryhigh
+            {% elif data.risk_level == 'High' %}b-high
+            {% elif data.risk_level == 'Moderate' %}b-med
+            {% elif data.risk_level == 'Low' %}b-low
+            {% else %}b-verylow{% endif %}">
+            {{ data.risk_level }}
+            </span>
+        </div>
+    </section>
+
+
     <!-- Weather Snapshot -->
     <section class="weather-cards container">
         <div class="weather-card">

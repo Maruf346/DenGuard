@@ -51,8 +51,6 @@ body {
   margin-bottom: 1px;
 }
 
-
-
 /* Profile */
 .profile-section {
   text-align: center;
@@ -66,28 +64,51 @@ body {
   margin-bottom: 10px;
 }
 
-
-.b-verylow {
-  background: rgba(0, 128, 0, 0.15);
-  color: #b9fbc0;
-  border: 1px solid #008000;
+.risk-today {
+    text-align: center;
+    margin: 40px auto;
 }
 
-/* CTA Button */
-.cta-btn {
-  margin-top: 15px;
-  padding: 12px 25px;
-  background: #463221;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
+.risk-today h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #463221;
+    margin-bottom: 20px;
 }
 
-.cta-btn:hover {
-  background: #5b3d29;
+/* Card wrapper for badge */
+.risk-card {
+    display: inline-block;
+    padding: 25px 40px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #fdf2f8, #fce7f3); /* soft pinkish gradient */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
+
+.risk-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+}
+
+/* Badge styling */
+.badge {
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 18px;
+    display: inline-block;
+    min-width: 120px;
+    text-align: center;
+    color: #fff;
+}
+
+/* Risk colors */
+.b-veryhigh { background-color: #b91c1c; }   /* deep red */
+.b-high     { background-color: #ef4444; }   /* red */
+.b-med      { background-color: #f59e0b; }   /* orange */
+.b-low      { background-color: #10b981; }   /* green */
+.b-verylow  { background-color: #047857; }   /* dark green */
 
 /* Weather Snapshot Cards */
 .weather-cards {

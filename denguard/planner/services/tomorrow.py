@@ -138,10 +138,23 @@ def get_today_weather_and_air(city):
             uv_index = float(uv_raw) if uv_raw is not None else None
 
 
-        # Load the weather model and make predictions
+        import pandas as pd
+
+        # Load trained model
         model = joblib.load("planner/model/svm_weather_model.pkl")
 
+        # Define column names (same as in training CSV, order matters)
+        feature_columns = [
+            "date", "location", "rainfall_mm", "humidity_percent",
+            "temp_min_C", "temp_max_C", "temp_mean_C",
+            "wind_speed_kph", "wind_direction_deg",
+            "uv_index", "pm25", "pm10", "aqi"
+        ]
+
+        # Collect today's feature values
         features = [
+            today,
+            city,
             daily.get("precipitation_sum", [0.0])[0] or 0.2,
             humidity or 50.0,
             daily.get("temperature_2m_min", [25.0])[0] or 25.0,
@@ -155,8 +168,12 @@ def get_today_weather_and_air(city):
             aqi_val or 76.0,
         ]
 
-        X_today = np.array([features])  # shape (1, n_features)
+        # Build DataFrame with correct columns
+        X_today = pd.DataFrame([features], columns=feature_columns)
+
+        # Predict risk
         risk_prediction = model.predict(X_today)[0]
+
 
         # Build result keeping the same keys as before
         data = {

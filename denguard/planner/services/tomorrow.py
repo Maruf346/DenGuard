@@ -1,7 +1,8 @@
 # services/tomorrow.py  (Now uses Open-Meteo + NASA POWER instead of Tomorrow.io)
+import joblib
 import requests
 from datetime import datetime, timedelta
-
+import numpy as np
 
 def get_today_weather_and_air(city):
     """
@@ -137,6 +138,25 @@ def get_today_weather_and_air(city):
             uv_index = float(uv_raw) if uv_raw is not None else None
 
 
+        # Load the weather model and make predictions
+        model = joblib.load("planner/model/svm_weather_model.pkl")
+
+        features = [
+            daily.get("precipitation_sum", [0.0])[0] or 0.2,
+            humidity or 50.0,
+            daily.get("temperature_2m_min", [25.0])[0] or 25.0,
+            daily.get("temperature_2m_max", [30.0])[0] or 30.0,
+            daily.get("temperature_2m_mean", [27.0])[0] or 27.0,
+            daily.get("wind_speed_10m_max", [5.0])[0] or 10.0,
+            daily.get("wind_direction_10m_dominant", [180.0])[0] or 180.0,
+            uv_index or 0.02,
+            pm25_val or 70.0,
+            pm10_val or 84.0,
+            aqi_val or 76.0,
+        ]
+
+        X_today = np.array([features])  # shape (1, n_features)
+        risk_prediction = model.predict(X_today)[0]
 
         # Build result keeping the same keys as before
         data = {
@@ -153,7 +173,7 @@ def get_today_weather_and_air(city):
             "pm25": pm25_val,
             "pm10": pm10_val,
             "aqi": aqi_val,
-            "risk_level": "High" if (aqi_val and aqi_val >= 100) else "Low"
+            "risk_level": risk_prediction
         }
         return data
 

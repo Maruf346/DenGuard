@@ -123,7 +123,7 @@ def heatmap_data_api(request):
         if r.latitude is None or r.longitude is None:
             continue
         intensity = round(r.total / max_total, 3)  # normalize 0..1
-        points.append([r.latitude, r.longitude, intensity])
+        points.append([r.longitude, r.latitude, intensity])
 
     return JsonResponse({"points": points, "max_total": max_total})
 

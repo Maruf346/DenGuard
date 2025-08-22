@@ -10,7 +10,7 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 30px auto;
   padding: 20px;
   text-align: center;
@@ -155,15 +155,15 @@ body {
 }
 
 .chart-container {
-  max-width: 1000px;
-  margin: 40px auto;
+  max-width: 1200px;
+  margin: 20px auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.chart-container h2 {
+.chart-container h3 {
   text-align: center;
   color: #463221;
   margin-bottom: 30px;
@@ -172,7 +172,8 @@ body {
 .chart-container canvas {
   margin: 25px auto;
   display: block;
-  max-width: 90%;
+  width: auto !important;
+  height: 500px !important;
 }
 
 

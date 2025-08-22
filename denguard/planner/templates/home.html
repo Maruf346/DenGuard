@@ -98,58 +98,57 @@
     const longitudes = {{ longitudes_json|safe }};
     const bubbleSizes = {{ bubble_sizes_json|safe }};
 
-    // 1️⃣ Line/Bar Chart - Total Cases
+    // --- Slice only last 15 rows for first two charts ---
+    let last15Locations = locations.slice(-15);
+    let last15TotalCases = totalCases.slice(-15);
+    let last15MaleCases = maleCases.slice(-15);
+    let last15FemaleCases = femaleCases.slice(-15);
+    let last15DeadCases = deadCases.slice(-15);
+
+    // --- Chart 1: Total Cases by Location ---
     new Chart(document.getElementById("totalCasesChart"), {
         type: 'bar',
         data: {
-            labels: locations,
+            labels: last15Locations,
             datasets: [{
                 label: "Total Cases",
-                data: totalCases,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
+                data: last15TotalCases,
+                backgroundColor: 'rgb(50, 122, 183)'
             }]
         },
         options: {
             responsive: true,
-            plugins: { legend: { display: true } },
             scales: { y: { beginAtZero: true } }
         }
     });
 
-    // 2️⃣ Stacked Bar Chart
+    // --- Chart 2: Stacked Bar (Male, Female, Dead) ---
     new Chart(document.getElementById("stackedBarChart"), {
         type: 'bar',
         data: {
-            labels: locations,
+            labels: last15Locations,
             datasets: [
-                { label: "Male", data: maleCases, backgroundColor: 'rgba(54, 162, 235, 0.7)' },
-                { label: "Female", data: femaleCases, backgroundColor: 'rgba(255, 99, 132, 0.7)' },
-                { label: "Dead", data: deadCases, backgroundColor: 'rgba(0,0,0,0.7)' }
+                { label: "Male", data: last15MaleCases, backgroundColor: 'rgb(50, 122, 183)' },
+                { label: "Female", data: last15FemaleCases, backgroundColor: 'rgb(255, 0, 0)' },
+                { label: "Dead", data: last15DeadCases, backgroundColor: 'rgba(0,0,0,0.7)' }
             ]
         },
         options: {
             responsive: true,
-            plugins: { legend: { position: 'top' } },
-            scales: { x: { stacked: true }, y: { stacked: true, beginAtZero: true } }
+            scales: {
+                x: { stacked: true },
+                y: { stacked: true, beginAtZero: true }
+            }
         }
     });
 
-    // 3️⃣ Pie Chart - Gender Distribution
+    // Gender Distribution Pie
     new Chart(document.getElementById("genderPieChart"), {
         type: 'pie',
-        data: {
-            labels: ["Male", "Female"],
-            datasets: [{
-                data: genderDistribution,
-                backgroundColor: ['rgba(54, 162, 235, 0.7)', 'rgba(255, 99, 132, 0.7)']
-            }]
-        },
-        options: { responsive: true }
+        data: { labels: ["Male", "Female"], datasets: [{ data: genderDistribution, backgroundColor: ['rgb(50, 122, 183)', 'rgb(67, 67, 72)'] }] }
     });
 
-    // 4️⃣ Bubble/Scatter Map
+    // Bubble Chart
     new Chart(document.getElementById("bubbleMapChart"), {
         type: 'bubble',
         data: {
@@ -161,7 +160,6 @@
         },
         options: {
             responsive: true,
-            plugins: { legend: { position: 'top' } },
             scales: {
                 x: { title: { display: true, text: 'Longitude' } },
                 y: { title: { display: true, text: 'Latitude' } }

@@ -131,6 +131,42 @@
           <li><span>AQI</span><b>{{ data.aqi|floatformat:2|default:"—" }}</b></li>
         </ul>
       </div>
+
+      <div class="card">
+        <h3>Prevention Tips</h3>
+        <ul>
+            {% if data.risk_level == 'Very High' %}
+                <li>🦟 Stay indoors during peak mosquito hours (morning & evening)</li>
+                <li>💧 Check and clean all water containers daily</li>
+                <li>🚫 Avoid outdoor activities unless absolutely necessary</li>
+                <li>🏥 Visit the hospital immediately if you notice fever or joint pain</li>
+
+            {% elif data.risk_level == 'High' %}
+                <li>🦟 Use strong mosquito repellents regularly</li>
+                <li>💧 Clean flower pots, AC trays, and water tanks weekly</li>
+                <li>👕 Wear long-sleeved clothes and cover exposed skin</li>
+                <li>🧴 Keep mosquito coils or vaporizers running indoors</li>
+
+            {% elif data.risk_level == 'Moderate' %}
+                <li>🦟 Use mosquito nets while sleeping</li>
+                <li>💧 Ensure water storage areas are covered</li>
+                <li>👕 Wear protective clothing when outdoors</li>
+                <li>🏠 Keep doors and windows closed in the evening</li>
+
+            {% elif data.risk_level == 'Low' %}
+                <li>🦟 Light repellents are enough but still stay cautious</li>
+                <li>💧 Do a quick weekly check for stagnant water</li>
+                <li>🪟 Install mesh screens on windows and doors</li>
+                <li>🧴 Use mild mosquito repellents at night</li>
+
+            {% else %}
+                <li>🦟 Maintain basic mosquito prevention measures</li>
+                <li>💧 Keep surroundings clean and dry</li>
+                <li>🏠 Keep living areas well-ventilated</li>
+                <li>😌 No major threat, but remain cautious</li>
+            {% endif %}
+        </ul>
+      </div>
     </section>
 
     <!--

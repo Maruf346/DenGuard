@@ -58,7 +58,7 @@ def get_today_weather_and_air(city):
     today = datetime.utcnow().strftime("%Y-%m-%d")
 
     try:
-        # 1️⃣ Open-Meteo daily weather
+        # 1 Open-Meteo daily weather
         meteo_url = (
             "https://api.open-meteo.com/v1/forecast?"
             f"latitude={lat}&longitude={lon}"
@@ -69,7 +69,7 @@ def get_today_weather_and_air(city):
         meteo_data = requests.get(meteo_url).json()
         daily = meteo_data.get("daily", {})
 
-        # 2️⃣ Open-Meteo hourly air quality
+        # 2 Open-Meteo hourly air quality
         air_url = (
             "https://air-quality-api.open-meteo.com/v1/air-quality?"
             f"latitude={lat}&longitude={lon}"
@@ -92,7 +92,7 @@ def get_today_weather_and_air(city):
             pm25_val = pm10_val = aqi_val = None
 
 
-        # 3️⃣ NASA POWER humidity & UV
+        # 3 NASA POWER humidity & UV
         today_nasa = datetime.utcnow().strftime("%Y%m%d")
 
         nasa_params = {

@@ -82,8 +82,6 @@
         <!-- 3. Pie Chart: Gender Distribution -->
         <canvas id="genderPieChart"></canvas>
 
-        <!-- 4. Bubble/Scatter Map -->
-        <canvas id="bubbleMapChart"></canvas>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -148,24 +146,6 @@
         data: { labels: ["Male", "Female"], datasets: [{ data: genderDistribution, backgroundColor: ['rgb(50, 122, 183)', 'rgb(67, 67, 72)'] }] }
     });
 
-    // Bubble Chart
-    new Chart(document.getElementById("bubbleMapChart"), {
-        type: 'bubble',
-        data: {
-            datasets: locations.map((loc, i) => ({
-                label: loc,
-                data: [{ x: longitudes[i], y: latitudes[i], r: bubbleSizes[i] }],
-                backgroundColor: 'rgba(255, 159, 64, 0.6)'
-            }))
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { title: { display: true, text: 'Longitude' } },
-                y: { title: { display: true, text: 'Latitude' } }
-            }
-        }
-    });
     </script>
 
 
